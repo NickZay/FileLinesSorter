@@ -1,11 +1,11 @@
 /************************************************************
 * @file                                                     *
-*           Этот файл считывает Ваш текстовый файл txt      *
-*           и сортирует его по строкам, убирая все нулевые  *
-*           строчки при этом.                               *
-*           Можно сортировать как сначала, так и с конца    *
-* @date     14 сентября 2019 года                           *
-* @author   Никита Зайцев                                   *
+*           This file read your text file.txt               *
+*           and sort it by lines, deleting all zero         *
+*           lines by doing this                             *
+*           You can sort text by beginnings or by ends      *
+* @date     14th of September 2019 year                     *
+* @author   Nickita Zaitsiev                                *
 * email:    zaitsev.ni@phystech.edu                         *
 ************************************************************/
 
@@ -13,107 +13,137 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#define BEGIN     0
-#define END       1
-#define NOTSTRICT 0
-#define STRICT    1
+const int BEGIN     = 0;
+const int END       = 1;
+const int NOTSTRICT = 0;
+const int STRICT    = 1;
 
 
-/// @brief  Структура, содержащая указатели на начала
-///         и концы строк Вашего файла
+/// @brief  Structure which contains pointers on beginnings
+///         and ends lines of your file
 struct arr;
 
-/// @brief  Считывает файл в массив и переводит его
-///         в нужный формат
-/// @note   Требуется очистка динамической памяти
-/// @return Массив из файла в правильном формате
-char* read ();
+/// @brief  Read file in array and translate it in needful format
+/// @param[in] name Address of file, which should be read
+/// @note   You need clean your data after usage
+/// @return Array from file in the correct format
+char* read (char *name);
 
-/// @brief  Показывает результат работы копировщика
-///         через массив с текстом
+/// @brief  Show result of work of copier by using array of text
 void showText (char *text);
 
-/// @brief  Получает размер для массива из указателей
-/// @param[in] text Массив с текстом
-/// @return Размер целевого массива структур
+/// @brief  Get size of array of pointers
+/// @param[in] text Array with text
+/// @return Size of needful array of structs
 int  getIndexSize (char *text);
 
-/// @brief  Создает массив из указателей для нашего текста
-/// @note   Требуется очистка динамической памяти
-/// @param[in] indexSize Размер массива
-/// @param[in] text Массив с текстом
-/// @return Массив из структур с указателями
+/// @brief  Create array of pointers for our text
+/// @note   You need clean your data after usage
+/// @param[in] indexSize Size of your array
+/// @param[in] text Array of text
+/// @return Array of structs with pointers
 arr* makeIndex (char *text, int indexSize);
 
-/// @brief  Функция разделения массива указателей по пивоту
-///         Не рандомная, потому что отлаживать тяжело
-/// @param[in] index Массив из структур
-/// @param[in] n Количество строк в массиве
-/// @param[in] version : BEGIN=0 - с прямым компаратором, END=1 - с обраным
-/// @return Номер элемента разделения
+/// @brief  Function of devision array of pointer by pivot
+/// @param[in] index Array of structs
+/// @param[in] n Quantity of lines in array
+/// @param[in] version : BEGIN=0 - with straight, END=1 - with back
+/// @return Number of element of devision
 int  Partition (arr *index, int n, int version);
 
-/// @brief  Функция сортировки массива из структур размера n
-/// @param[in] index Массив из структур
-/// @param[in] n Размер массива
-/// @param[in] version : BEGIN=0 - с прямым компаратором, END=1 - с обраным
+/// @brief  Function of sorting array of structs with size n
+/// @param[in] index Array of structs
+/// @param[in] n Quantity of lines in array
+/// @param[in] version : BEGIN = 0 - with straight, END = 1 - with back
 void qsort (arr *index, int n, int version);
 
-/// @brief Функция сравнения двух строк
-/// @param[in] first  Первая строка
-/// @param[in] second Вторая строка
-/// @param[in] mode: NOTSTRICT=0 - нестрого, STRICT=1 - строго
-/// @param[in] version : BEGIN=0 - с прямым компаратором, END=1 - с обраным
-/// @return true, если первая меньше; false, если первая больше
+/// @brief Function of sorting two lines
+/// @param[in] first  First line
+/// @param[in] second Second line
+/// @param[in] mode: NOTSTRICT = 0, STRICT = 1
+/// @param[in] version : BEGIN = 0 - with straight, END = 1 - with back
+/// @return true, if first is less; false, if first is greater
 bool comp (arr first, arr second, int mode, int version);
 
-/// @brief  Показывает результат работы через массив
-///         из структур
-/// @param[in] index Массив структур
-/// @param[in] indexSize Размер массива
+/// @brief  Show result of work with array of structs
+/// @param[in] index Array of structs
+/// @param[in] indexSize Size of your array
 void showResult (arr *index, int indexSize);
 
-/// @brief  Меняет местами два объекта из структур,
-///         пришедших по ссылке
-/// @param[in] first  Указатель на первую строку
-/// @param[in] second Указатель на вторую строку
+/// @brief  Swap two objects of structs, which came with address
+/// @param[in] first  Pointer on first line
+/// @param[in] second Pointer on second line
 void swap (arr *first, arr *second);
 
-/// @brief Проверяет символ на код буквы
-/// @param[in] c Входящий символ
-/// @return true, если c буква
-bool isLetter (char c);
+/// @brief  Check symbol on letter
+/// @param[in] c Input symbol
+/// @return true, if c is a letter
+inline bool isLetter (char c);
 
-/// @brief Меняет букву на строчную, если она была заглавной
-/// @param[in] c Входящий символ
-/// @return Нужный символ
-char makeItSmall (char c);
+/// @brief  Swap letter lowercase
+/// @param[in] c Input symbol
+/// @return Needful symbol
+inline char makeItSmall (char c);
 
-/// @brief Проверка моего компаратора
+/// @brief  Check my Comparator
 void testComp();
 
-/// @brief Проверка отсортированности массива
-/// @param[in] index Массив структур
-/// @param[in] indexSize Размер массива
-/// @param[in] version : BEGIN=0 - с прямым компаратором, END=1 - с обраным
+/// @brief  Check sorting array
+/// @param[in] index Array of structs
+/// @param[in] indexSize Size of your array
+/// @param[in] version : BEGIN = 0 - with straight, END = 1 - with back
 void testArray (arr *index, int indexSize, int version);
 
-/// @brief Запись отсортированного массива в созданный до этого файл
-/// @param[in] index Массив структур
-/// @param[in] indexSize Размер массива
+/// @brief  Recording sorted array in your created file
+/// @param[in] index Array of structs
+/// @param[in] indexSize Size of your array
 void record (arr *index, int indexSize);
 
-/// @brief  Считывает букву и сравнивает ее с y Y
-/// @return true, если символ = y Y, иначе false
+/// @brief  Read letter and compare it with y and Y
+/// @return true, if symbol = y Y, else false
 bool ifY ();
+
+/// @brief  Sorting of array of structs with size 1, 2 or 3
+/// @param[in] index Array of structs
+/// @param[in] n Quantity of lines in array
+/// @param[in] version : BEGIN = 0 - with straight, END = 1 - with back
+void sort123 (arr* index, int n, int version);
+
+/// @brief  Read line
+/// @note   need a free
+/// @return Return it
+char* readName ();
+
+/// @brief  Give you the size of the file, which you gave
+/// @param[in] filename
+/// @return Size
+int getSize (FILE* filename);
+
+/// @brief  Sort from beginnings
+/// @param[in] first  First line
+/// @param[in] second Second line
+/// @param[in] mode: NOTSTRICT = 0, STRICT = 1
+/// @return true, if first is less; false, if first is greater
+bool compHelpFirst (arr fir, arr sec, int mode);
+
+/// @brief  Sort from endings
+/// @param[in] first  First line
+/// @param[in] second Second line
+/// @param[in] mode: NOTSTRICT = 0, STRICT = 1
+/// @return true, if first is less; false, if first is greater
+bool compHelpSecond (arr fir, arr sec, int mode);
+
 
 int main()
 {
     testComp();
 
-    char *text = read();                      assert (text);
-    int indexSize = getIndexSize (text);      assert (indexSize >= 0);
-    arr* index = makeIndex (text, indexSize); assert (index);
+    char *name = readName();                    assert (name);
+    char *text = read (name);                   assert (text);
+    free (name);                                name = nullptr;
+
+    int indexSize = getIndexSize (text);        assert (indexSize >= 0);
+    arr* index = makeIndex (text, indexSize);   assert (index);
 
     qsort (index, indexSize, BEGIN);
     showResult (index, indexSize);
@@ -139,8 +169,8 @@ int main()
             showText (text);
     }
 
-    free (index); index = nullptr;
-    free (text); //!!!
+    free (index);   index = nullptr;
+    free (text);    text  = nullptr;
 
     printf("\n\n  Thank you for chosing our product\n  (C)NickZay\n");
     return 0;
@@ -157,37 +187,17 @@ struct arr
     char *second = nullptr;
 };
 
-char* read ()
+char* read (char* name)
 {
-    printf ("Please, enter your filename: ");
-    char name[20];
-    fflush (stdin);
-    char* Check = gets (name);
-    assert (Check != 0);
-    printf ("\n");
+    //printf ("Where?\nhey");
+    FILE *filename = fopen (name, "r"); assert (filename);
+    //printf ("Where?\nallo");
+    int Size = getSize (filename);
 
-    //printf("Please");
-    FILE *filename = fopen (name, "r");
-    assert (filename);
-
-    // Узнаем размер
-    bool foo = fseek (filename, 0, SEEK_END);
-    assert (!foo);
-
-    int Size = ftell (filename);
-    assert (Size != -1);
-
-    foo = fseek (filename, 0, SEEK_SET);
-    assert (!foo);
-
-    // Создаем массив текста и переводим его в нужный формат
-    char *text = (char*) calloc (Size + 3, sizeof (char));
-    assert (text);
-
-    text[0] = '\0';
-    // Без ассерта, потому что fread не передает \r
-    // И у нас результат зависел бы от операционки
-    Size = fread (text + 1, sizeof (char), Size, filename);
+    printf ("Where?\n");
+    // Why 3? My text will be "\0text\n\0" => I need +3
+    char *text = (char*) calloc (Size + 3, sizeof (char));  assert (text);
+    Size = fread (text + 1, sizeof (char), Size, filename); assert (Size >= 0);
 
     for (int i = 1; i < Size + 1; ++i)
         text[i] = ((text[i] == '\n') ? '\0' : text[i]);
@@ -241,47 +251,60 @@ void showResult (arr *index, int indexSize)
 
 bool comp (arr fir, arr sec, int mode, int version)
 {
-    int i = 0, j = 0;
     if (version == BEGIN)
-    {
-        while (fir.first[i] != '\0' && sec.first[j] != '\0')
-        {
-            if (!isLetter (fir.first[i]))
-              { ++i; continue; }
-            if (!isLetter (sec.first[j]))
-              { ++j; continue; }
-            if (makeItSmall (fir.first[i]) < makeItSmall (sec.first[j]))
-                return true;
-            else if (makeItSmall (fir.first[i]) > makeItSmall (sec.first[j]))
-                return false;
-            else
-              { ++i; ++j; }
-        }
-        if ((fir.first[i] == '\0') && (sec.first[j] != '\0'))
-            return true;
-        else if (fir.first[i] != '\0' && sec.first[j] == '\0')
-            return false;
-    }
+        return compHelpFirst  (fir, sec, mode);
     else
+        return compHelpSecond (fir, sec, mode);
+}
+
+bool compHelpFirst (arr fir, arr sec, int mode)
+{
+    int i = 0, j = 0;
+    while (fir.first[i] != '\0' && sec.first[j] != '\0')
     {
-        while (fir.second[i] != '\0' && sec.second[j] != '\0')
-        {
-            if (!isLetter (fir.second[i]))
-              { --i; continue; }
-            if (!isLetter (sec.second[j]))
-              { --j; continue; }
-            if (makeItSmall (fir.second[i]) < makeItSmall (sec.second[j]))
-                return true;
-            else if (makeItSmall (fir.second[i]) > makeItSmall (sec.second[j]))
-                return false;
-            else
-              { --i; --j; }
-        }
-        if ((fir.second[i] == '\0') && (sec.second[j] != '\0'))
+        if (!isLetter (fir.first[i]))
+          { ++i; continue; }
+        if (!isLetter (sec.first[j]))
+          { ++j; continue; }
+        if (makeItSmall (fir.first[i]) < makeItSmall (sec.first[j]))
             return true;
-        else if (fir.second[i] != '\0' && sec.second[j] == '\0')
+        else if (makeItSmall (fir.first[i]) > makeItSmall (sec.first[j]))
             return false;
+        else
+          { ++i; ++j; }
     }
+    if ((fir.first[i] == '\0') && (sec.first[j] != '\0'))
+        return true;
+    else if (fir.first[i] != '\0' && sec.first[j] == '\0')
+        return false;
+
+    if (mode == NOTSTRICT)
+        return true;
+    else
+        return false;
+}
+
+bool compHelpSecond (arr fir, arr sec, int mode)
+{
+    int i = 0, j = 0;
+    while (fir.second[i] != '\0' && sec.second[j] != '\0')
+    {
+        if (!isLetter (fir.second[i]))
+          { --i; continue; }
+        if (!isLetter (sec.second[j]))
+          { --j; continue; }
+        if (makeItSmall (fir.second[i]) < makeItSmall (sec.second[j]))
+            return true;
+        else if (makeItSmall (fir.second[i]) > makeItSmall (sec.second[j]))
+            return false;
+        else
+          { --i; --j; }
+    }
+    if ((fir.second[i] == '\0') && (sec.second[j] != '\0'))
+        return true;
+    else if (fir.second[i] != '\0' && sec.second[j] == '\0')
+        return false;
+
     if (mode == NOTSTRICT)
         return true;
     else
@@ -296,7 +319,7 @@ inline bool isLetter (char c)
         return false;
 }
 
-char makeItSmall (char c)
+inline char makeItSmall (char c)
 {
     if ((('A' <= c) && (c <= 'Z')) || (('a' <= c) && (c <='z')))
         {
@@ -313,28 +336,40 @@ int Partition (arr *index, int n, int version)
     if (n <= 1) // ОЧЕВИДНО
         return 0;
     arr pivot = index[n-1];
-    int i = 0, j = n - 2;
-    while (i <= j)
+    int left = 0, right = n - 2;
+    while (left <= right)
     {
-        for ( ; i < n - 1 && comp (index[i], pivot, STRICT, version); ++i) {}
-        for ( ; j >= 0    && comp (pivot, index[j], STRICT, version); --j) {}
-        if (i < j)
+        for ( ; left < n - 1 && comp (index[left], pivot,  STRICT, version); ++left) {}
+        for ( ; right >= 0   && comp (pivot, index[right], STRICT, version); --right) {}
+        if (left < right)
         {
-            swap (index + i, index + j);
-            ++i;
-            --j;
+            swap (index + left, index + right);
+            ++left;
+            --right;
         }
     }
-    swap (index + i, index + (n - 1));
-    return i;
+    swap (index + left, index + (n - 1));
+    return left;
 }
 
 void qsort (arr *index, int n, int version)
 {
     if (n <= 1) // ОЧЕВИДНО
         return;
+    sort123 (index, n, version);
 
-    if (n == 2) // ТОЖЕ ВЕРНО
+    int part = Partition (index, n, version);
+    if (part > 0)
+        qsort (index, part, version);
+    if (part < n - 1)
+        qsort (index + part + 1, n - (1 + part), version);
+}
+
+void sort123 (arr* index, int n, int version)
+{
+    if (n <= 1 || n >= 4)
+        return;
+    if (n == 2) // ВЕРНО
         if (version == BEGIN)
             if (comp (index[0], index[1], NOTSTRICT, version))
                 return;
@@ -365,14 +400,10 @@ void qsort (arr *index, int n, int version)
                 if (comp (index[0], index[2], NOTSTRICT, version))  // 1 0 2
                   { swap (index, index + 1); return; }
                 else                                    // 2 0 1
-                {   swap (index, index + 2);
+                  { swap (index, index + 2);
                     swap (index, index + 1);
-                    return; }
-    int part = Partition (index, n, version);
-    if (part > 0)
-        qsort (index, part, version);
-    if (part < n - 1)
-        qsort (index + part + 1, n - (1 + part), version);
+                    return;
+                  }
 }
 
 void swap (arr *first, arr *second)
@@ -391,10 +422,10 @@ void testComp()
     if (c == 'y' || c == 'Y')
     {
         arr fir ("aa b", "a bb"), sec ("a bb", "aa b");
-        if (      (comp (fir, sec, STRICT,    BEGIN) == true)
-                ||(comp (fir, sec, NOTSTRICT, BEGIN) == true)
-                ||(comp (sec, fir, STRICT,    BEGIN) == false)
-                ||(comp (sec, fir, NOTSTRICT, BEGIN) == false)  )
+        if (    (comp (fir, sec, STRICT,    BEGIN) == true) ||
+                (comp (fir, sec, NOTSTRICT, BEGIN) == true) ||
+                (comp (sec, fir, STRICT,    BEGIN) == false)||
+                (comp (sec, fir, NOTSTRICT, BEGIN) == false))
             printf ("\n\nEVERYTHING is OKEY\n\n");
         else
             printf ("\n\nSOMETHING went WRONG\n\n");
@@ -410,10 +441,14 @@ void testArray (arr *index, int indexSize, int version)
     if ( ifY() )
     {
         for (int i = 0; i < indexSize - 1; ++i)
+        {
+            assert (i >= 0 && i < indexSize);
             if (comp (index[i], index[i+1], NOTSTRICT, version) == false)
             {
                 printf ("SOMETHING went WRONG\n");
+                assert (0);
             }
+        }
         printf ("\nEVERYTHING is OKEY\n\n");
     }
 }
@@ -423,22 +458,14 @@ void record (arr *index, int indexSize)
     printf ("\nDo you want to record it? [Y/N]: ");
     if ( ifY() )
     {
-        printf ("\nPlease, point me the file of record: ");
-        char name[20];
-        fflush (stdin);
-        char* Check = gets (name);
-        assert (Check != 0);
-        printf ("\n");
-
-        FILE *filename = fopen (name, "w");
-        assert (filename);
+        char *name = readName();            assert (name);
+        FILE *filename = fopen (name, "w"); assert (filename);
+        free (name);                        name = nullptr;
 
         for (int i = 0, check = 0; i < indexSize; ++i)
         {
-            check = fputs (index[i].first, filename);
-            assert (check != EOF);
-            check = fputc ('\n', filename);
-            assert (check != EOF);
+            check = fputs (index[i].first, filename);   assert (check != EOF);
+            check = fputc ('\n', filename);             assert (check != EOF);
         }
     }
 }
@@ -454,5 +481,26 @@ bool ifY()
     else
         return false;
 }
+
+char* readName ()
+{
+    printf ("\nPlease, enter your filename: ");
+    char *name = (char*) calloc (255, sizeof (char));  assert (name);
+    fflush (stdin);
+    char* Check = gets (name);  assert (Check);
+    printf ("\n%s", name);
+    printf ("\n");
+    return name;
+}
+
+int getSize (FILE* filename)
+{
+    assert (filename);
+    bool foo = fseek (filename, 0, SEEK_END);   assert (!foo);
+    int Size = ftell (filename);                assert (Size != -1);
+    foo = fseek (filename, 0, SEEK_SET);        assert (!foo);
+    return Size;
+}
+
 
 
