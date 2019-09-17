@@ -151,7 +151,7 @@ int main()
     testArray (index, indexSize, BEGIN);
     record (index, indexSize);
 
-    {// Œ¡–¿“Õ¿ﬂ —Œ–“»–Œ¬ ¿
+    {// SORTING FROM ENDS
         printf ("Do you want to get text sorted from ends? [Y/N] ");
         if ( ifY() )
         {
@@ -163,7 +163,7 @@ int main()
             record (index, indexSize);
         }
     }
-    {// »«Õ¿◊¿À‹Õ€… “≈ —“
+    {
         printf ("Do you want to see original text? [Y/N] ");
         if ( ifY() )
             showText (text);
@@ -189,9 +189,7 @@ struct arr
 
 char* read (char* name)
 {
-    //printf ("Where?\nhey");
     FILE *filename = fopen (name, "r"); assert (filename);
-    //printf ("Where?\nallo");
     int Size = getSize (filename);
 
     printf ("Where?\n");
